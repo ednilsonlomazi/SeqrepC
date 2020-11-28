@@ -1,21 +1,21 @@
 
-RWStructOneD rws_atomic = {.write = &write_atomic};
-RWStructOneD rws_binary2b = {.write = &write_binary2b};
-RWStructOneD rws_binary4b = {.write = &write_binary4b};
-RWStructOneD rws_dnawalk = {.write = &write_dnawalk};
-RWStructOneD rws_eiip = {.write = &write_eiip};
-RWStructOneD rws_imaginary = {.write = &write_imaginary};
-RWStructOneD rws_integer = {.write = &write_integer};
-RWStructOneD rws_molecular_mass = {.write = &write_molecular_mass};
-RWStructOneD rws_paired_numeric = {.write = &write_paired_numeric};
-RWStructOneD rws_real = {.write = &write_real};
+RWStructOneD rws_atomic = {.write = &write_atomic, .read = &read_atomic};
+RWStructOneD rws_binary2b = {.write = &write_binary2b, .read = &read_binary2b};
+RWStructOneD rws_binary4b = {.write = &write_binary4b, .read = &read_binary4b};
+RWStructOneD rws_dnawalk = {.write = &write_dnawalk, .read = &read_dna_walk};
+RWStructOneD rws_eiip = {.write = &write_eiip, .read = &read_eiip};
+RWStructOneD rws_imaginary = {.write = &write_imaginary, .read = &read_imaginary};
+RWStructOneD rws_integer = {.write = &write_integer, .read = &read_integer};
+RWStructOneD rws_molecular_mass = {.write = &write_molecular_mass, .read = &read_molecular_mass};
+RWStructOneD rws_paired_numeric = {.write = &write_paired_numeric, .read = &read_paired_numeric};
+RWStructOneD rws_real = {.write = &write_real, .read = &read_real};
 
-RWStructManyD rws_cgr = {.write = &write_cgr};
-RWStructManyD rws_icgr = {.write = &write_icgr};
-RWStructManyD rws_liao = {.write = &write_liao};
-RWStructManyD rws_tetrahedron = {.write = &write_tetrahedron};
-RWStructManyD rws_voss = {.write = &write_voss};
-RWStructManyD rws_zcurve = {.write = &write_zcurve};
+RWStructManyD rws_cgr = {.write = &write_cgr, .read = &read_cgr};
+RWStructManyD rws_icgr = {.write = &write_icgr, .read = &read_icgr};
+RWStructManyD rws_liao = {.write = &write_liao, .read = &read_liao};
+RWStructManyD rws_tetrahedron = {.write = &write_tetrahedron, .read = &read_tetrahedron};
+RWStructManyD rws_voss = {.write = &write_voss, .read = &read_voss};
+RWStructManyD rws_zcurve = {.write = &write_zcurve, .read = &read_zcurve};
 
 MpStructOneD atomic_s = {.mp = &atomic, .signature = "atomic", .rws = &rws_atomic};
 MpStructOneD binary2b_s = {.mp = &binary_2b, .signature = "binary2b", .rws = &rws_binary2b};

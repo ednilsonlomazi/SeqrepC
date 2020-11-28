@@ -1,12 +1,21 @@
-#define PY_SSIZE_T_CLEAN
+#define PY_SSIZE_T_CLEAN 
 #include <Python.h>
 #include "./core/core.c"    
-  
+        
+static PyObject* method_collect(PyObject *self, PyObject *args) {
+    
+    char* mapping_signature = NULL;
+    char* source = NULL; 
+    
+    if(!PyArg_ParseTuple(args, "ss", &mapping_signature, &source)) return NULL;
+    return collect(mapping_signature, source);
               
+}  
+                                    
 static PyObject* method_store(PyObject *self, PyObject *args) {
     
-    char* mapping_signature;
-    char* dst;
+    char* mapping_signature = NULL;
+    char* dst = NULL;         
     
     PyObject* seqs;
     PyObject* seqs_info; 
@@ -31,6 +40,7 @@ static PyObject *method_perform_encoding(PyObject *self, PyObject *args) {
 static PyMethodDef SeqrepC_Methods[] = {
     {"perform_encoding", method_perform_encoding, METH_VARARGS, "Method to convert genomic sequence to numerical sequence"},
     {"store", method_store, METH_VARARGS, "Method to store numerical sequences"},
+    {"collect", method_collect, METH_VARARGS, "Method to collect numerical sequences"},
     {NULL, NULL, 0, NULL}
 };
 

@@ -25,3 +25,14 @@ PyObject* store(PyObject* seqs, PyObject* seqs_info, char* mapping_signature, ch
     mp_hash_table_init();
     return store(seqs, seqs_info, mapping_signature, dst);
 }
+
+PyObject* collect(char* mapping_signature, char* source){
+    if(mp_hash_table[0] != NULL){
+        MpStruct* mps = mp_hash_table_lookup(mapping_signature);
+        if(mps->one_d != NULL)
+            return mps->one_d->rws->read(source);
+        return mps->many_d->rws->read(source);
+    }
+    mp_hash_table_init();
+    return collect(mapping_signature, source);
+}

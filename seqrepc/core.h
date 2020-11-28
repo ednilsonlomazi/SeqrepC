@@ -9,13 +9,13 @@
 typedef struct RWStructOneD{
 	unsigned seq_size;
 	write_one_d* write;
-	read_one_d* read;
+	EncodedSeqsReader* read;
 } RWStructOneD;
 
 typedef struct RWStructManyD{
 	unsigned seq_size;
 	write_many_d* write;
-	read_many_d* read;
+	EncodedSeqsReader* read;
 } RWStructManyD;
 
 typedef struct MpStructOneD{
@@ -38,6 +38,8 @@ typedef struct MpStruct{
 } MpStruct;
 
 PyObject* encode(char*, unsigned, char*);
+PyObject* store(PyObject*, PyObject*, char*, char*);
+PyObject* collect(char*, char*);
 
 #include "./hash_tables.h"
 

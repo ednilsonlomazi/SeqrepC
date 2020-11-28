@@ -1,21 +1,4 @@
-
-PyObject* write_many(PyObject* seqs, PyObject* seqs_info, char* dst, SegmentWriter* segment_writer){
-    
-    FILE *fp;
-    fp = fopen(dst, "w+");
-
-    for (int seq_id = 0; seq_id < PyTuple_Size(seqs); ++seq_id){
-        PyObject* seq_encoded = PyTuple_GetItem(seqs, seq_id);
-        fprintf(fp, "%s\n", PyBytes_AsString(PyTuple_GetItem(seqs_info, seq_id)));
-        for (int i = 0; i < PyTuple_Size(seq_encoded); ++i){
-        	(*segment_writer)(fp, PyTuple_GetItem(seq_encoded, i));
-        }
-        fprintf(fp, "\n");
-    }
-    fclose(fp);
-    return Py_True;
-}
-
+/* -  -  -  -  -  WRITE ROTINES  -  -  -  -  -   */
 PyObject* write_voss(PyObject* seqs, PyObject* seqs_info, char* dst){
     return write_many(seqs, seqs_info, dst, &write_int_segment);
 }
@@ -38,4 +21,30 @@ PyObject* write_liao(PyObject* seqs, PyObject* seqs_info, char* dst){
 
 PyObject* write_tetrahedron(PyObject* seqs, PyObject* seqs_info, char* dst){
     return write_many(seqs, seqs_info, dst, &write_float_segment);
+}
+
+/* -  -  -  -  -  READ ROTINES  -  -  -  -  -   */
+
+PyObject* read_cgr(char* source){
+	return read_many(&read_float_segment, source);
+}
+
+PyObject* read_voss(char* source){
+	return read_many(&read_int_segment, source);
+}
+
+PyObject* read_zcurve(char* source){
+	return read_many(&read_float_segment, source);
+}
+
+PyObject* read_icgr(char* source){
+	return read_many(&read_int_segment, source);
+}
+
+PyObject* read_tetrahedron(char* source){
+	return read_many(&read_float_segment, source);
+}
+
+PyObject* read_liao(char* source){
+	return read_many(&read_float_segment, source);
 }
