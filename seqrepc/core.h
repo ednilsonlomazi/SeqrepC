@@ -7,13 +7,11 @@
 #include "./data.h"
 
 typedef struct RWStructOneD{
-	unsigned seq_size;
 	write_one_d* write;
 	EncodedSeqsReader* read;
 } RWStructOneD;
 
 typedef struct RWStructManyD{
-	unsigned seq_size;
 	write_many_d* write;
 	EncodedSeqsReader* read;
 } RWStructManyD;
@@ -26,7 +24,6 @@ typedef struct MpStructOneD{
 
 typedef struct MpStructManyD{
 	char* signature;
-	unsigned dim;
 	mapping* mp;
 	RWStructManyD* rws;
 } MpStructManyD;
@@ -40,6 +37,7 @@ typedef struct MpStruct{
 PyObject* encode(char*, unsigned, char*);
 PyObject* store(PyObject*, PyObject*, char*, char*);
 PyObject* collect_encodings(char*, char*);
+PyObject* collect_fasta(char*);
 
 #include "./hash_tables.h"
 

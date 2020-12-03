@@ -19,8 +19,8 @@ PyObject* store(PyObject* seqs, PyObject* seqs_info, char* mapping_signature, ch
 	if(mp_hash_table[0] != NULL){
         MpStruct* mps = mp_hash_table_lookup(mapping_signature);
         if(mps->one_d != NULL)
-            return mps->one_d->rws->write(seqs, seqs_info, dst);
-        return mps->many_d->rws->write(seqs, seqs_info, dst);
+            return (*(mps->one_d->rws->write))(seqs, seqs_info, dst);
+        return (*(mps->many_d->rws->write))(seqs, seqs_info, dst);
     }
     mp_hash_table_init();
     return store(seqs, seqs_info, mapping_signature, dst);
@@ -30,8 +30,8 @@ PyObject* collect_encodings(char* mapping_signature, char* source){
     if(mp_hash_table[0] != NULL){
         MpStruct* mps = mp_hash_table_lookup(mapping_signature);
         if(mps->one_d != NULL)
-            return mps->one_d->rws->read(source);
-        return mps->many_d->rws->read(source);
+            return (*(mps->one_d->rws->read))(source);
+        return (*(mps->many_d->rws->read))(source);
     }
     mp_hash_table_init();
     return collect_encodings(mapping_signature, source);

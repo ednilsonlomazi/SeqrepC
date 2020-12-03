@@ -140,10 +140,9 @@ PyObject* read_one(SegmentReader* segment_reader, char* source){
     return read_pack;
 }
 
-// USE DO WHILE HERE !!!
 PyObject* write_many(PyObject* seqs, PyObject* seqs_info, char* dst, SegmentWriter* segment_writer){
     
-    FILE *fp;
+    FILE* fp;
     fp = fopen(dst, "w+");
     
     for (int seq_id = 0; seq_id < PyTuple_Size(seqs); ++seq_id){
@@ -151,9 +150,8 @@ PyObject* write_many(PyObject* seqs, PyObject* seqs_info, char* dst, SegmentWrit
         PyObject* item_0 = PyTuple_GetItem(seq_encoded, 0);
         size_t seq_size = PyTuple_Size(item_0);
         fprintf(fp, "%s |%d\n", PyBytes_AsString(PyTuple_GetItem(seqs_info, seq_id)), seq_size);
-        /* - - - loop 0 - - - */
+        
         (*segment_writer)(fp, item_0);
-        /* - - - - - -  - - - */
         for (int i = 1; i < PyTuple_Size(seq_encoded); ++i){
             (*segment_writer)(fp, PyTuple_GetItem(seq_encoded, i));
         }
@@ -163,9 +161,23 @@ PyObject* write_many(PyObject* seqs, PyObject* seqs_info, char* dst, SegmentWrit
     return Py_True;
 }
 
-// USE DO WHILE HERE !!!
 PyObject* write_one(PyObject* seqs, PyObject* seqs_info, char* dst, SegmentWriter* segment_writer){
-    FILE *fp;
+    FILE* fp;
+    fp = fopen(dst, "w+");
+    
+    for (int seq_id = 0; seq_id < PyTuple_Size(seqs); ++seq_id){
+        PyObject* item = PyTuple_GetItem(seqs, seq_id);
+        size_t seq_size = PyTuple_Size(item); 
+        fprintf(fp, "%s |%d\n", PyBytes_AsString(PyTuple_GetItem(seqs_info, seq_id)), seq_size);
+        (*segment_writer)(fp, item);
+        fprintf(fp, "\n");    
+    } 
+    fclose(fp);
+    return Py_True;
+}
+
+PyObject* write_onee(PyObject* seqs, PyObject* seqs_info, char* dst, SegmentWriter* segment_writer){
+    FILE* fp;
     fp = fopen(dst, "w+");
     /* - - - loop 0 - - - */
     PyObject* item_0 = PyTuple_GetItem(seqs, 0);

@@ -9,7 +9,7 @@ static PyObject* method_collect_fasta(PyObject *self, PyObject *args) {
     if(!PyArg_ParseTuple(args, "s", &source)) return NULL;
     return collect_fasta(source);
               
-} 
+}    
                 
 static PyObject* method_collect_encodings(PyObject *self, PyObject *args) {
      
@@ -20,7 +20,7 @@ static PyObject* method_collect_encodings(PyObject *self, PyObject *args) {
     return collect_encodings(mapping_signature, source);
                
 }  
-                                    
+                                        
 static PyObject* method_store(PyObject *self, PyObject *args) {
     
     char* mapping_signature = NULL;

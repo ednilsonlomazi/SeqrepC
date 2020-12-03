@@ -28,12 +28,12 @@ MpStructOneD molecular_mass_s = {.mp = &molecular_mass, .signature = "molecular_
 MpStructOneD paired_numeric_s = {.mp = &paired_numeric, .signature = "paired_numeric", .rws = &rws_paired_numeric};
 MpStructOneD real_s = {.mp = &real, .signature = "real", .rws = &rws_real};
 
-MpStructManyD cgr_s = {.mp = &cgr, .signature = "cgr", .dim = 2, .rws = &rws_cgr};
-MpStructManyD icgr_s = {.mp = &icgr, .signature = "icgr", .dim = 2, .rws = &rws_icgr};
-MpStructManyD liao_s = {.mp = &liao, .signature = "liao", .dim = 2, .rws = &rws_liao};
-MpStructManyD tetrahedron_s = {.mp = &tetrahedron, .signature = "tetrahedron", .dim = 3, .rws = &rws_tetrahedron};
-MpStructManyD voss_s = {.mp = &voss, .signature = "voss", .dim = 4, .rws = &rws_voss};
-MpStructManyD zcurve_s = {.mp = &zcurve, .signature = "zcurve", .dim = 3, .rws = &rws_zcurve};
+MpStructManyD cgr_s = {.mp = &cgr, .signature = "cgr", .rws = &rws_cgr};
+MpStructManyD icgr_s = {.mp = &icgr, .signature = "icgr", .rws = &rws_icgr};
+MpStructManyD liao_s = {.mp = &liao, .signature = "liao", .rws = &rws_liao};
+MpStructManyD tetrahedron_s = {.mp = &tetrahedron, .signature = "tetrahedron", .rws = &rws_tetrahedron};
+MpStructManyD voss_s = {.mp = &voss, .signature = "voss", .rws = &rws_voss};
+MpStructManyD zcurve_s = {.mp = &zcurve, .signature = "zcurve", .rws = &rws_zcurve};
 
 MpStruct mps[MAPPING_NUM] = 
 {
