@@ -39,7 +39,7 @@ typedef struct MpStruct{
 
 PyObject* encode(char*, unsigned, char*);
 PyObject* store(PyObject*, PyObject*, char*, char*);
-PyObject* collect(char*, char*);
+PyObject* collect_encodings(char*, char*);
 
 #include "./hash_tables.h"
 

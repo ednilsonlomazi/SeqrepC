@@ -140,7 +140,7 @@ PyObject* read_one(SegmentReader* segment_reader, char* source){
     return read_pack;
 }
 
-
+// USE DO WHILE HERE !!!
 PyObject* write_many(PyObject* seqs, PyObject* seqs_info, char* dst, SegmentWriter* segment_writer){
     
     FILE *fp;
@@ -163,6 +163,7 @@ PyObject* write_many(PyObject* seqs, PyObject* seqs_info, char* dst, SegmentWrit
     return Py_True;
 }
 
+// USE DO WHILE HERE !!!
 PyObject* write_one(PyObject* seqs, PyObject* seqs_info, char* dst, SegmentWriter* segment_writer){
     FILE *fp;
     fp = fopen(dst, "w+");
@@ -184,6 +185,9 @@ PyObject* write_one(PyObject* seqs, PyObject* seqs_info, char* dst, SegmentWrite
     return Py_True;
 }
 
+
+
+#include "./raw_data.c"
 #include "./data_one.c"
 #include "./data_many.c"
 

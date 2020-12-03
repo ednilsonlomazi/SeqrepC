@@ -1,15 +1,24 @@
 #define PY_SSIZE_T_CLEAN 
 #include <Python.h>
 #include "./core/core.c"    
-        
-static PyObject* method_collect(PyObject *self, PyObject *args) {
+  
+static PyObject* method_collect_fasta(PyObject *self, PyObject *args) {
     
+    char* source = NULL; 
+    
+    if(!PyArg_ParseTuple(args, "s", &source)) return NULL;
+    return collect_fasta(source);
+              
+} 
+                
+static PyObject* method_collect_encodings(PyObject *self, PyObject *args) {
+     
     char* mapping_signature = NULL;
     char* source = NULL; 
     
     if(!PyArg_ParseTuple(args, "ss", &mapping_signature, &source)) return NULL;
-    return collect(mapping_signature, source);
-              
+    return collect_encodings(mapping_signature, source);
+               
 }  
                                     
 static PyObject* method_store(PyObject *self, PyObject *args) {
@@ -35,12 +44,13 @@ static PyObject *method_perform_encoding(PyObject *self, PyObject *args) {
     return encode(raw_seq, seq_size, mapping_signature);
 
 }
-
+      
 
 static PyMethodDef SeqrepC_Methods[] = {
     {"perform_encoding", method_perform_encoding, METH_VARARGS, "Method to convert genomic sequence to numerical sequence"},
     {"store", method_store, METH_VARARGS, "Method to store numerical sequences"},
-    {"collect", method_collect, METH_VARARGS, "Method to collect numerical sequences"},
+    {"collect_encodings", method_collect_encodings, METH_VARARGS, "Method to collect numerical sequences"},
+    {"collect_fasta", method_collect_fasta, METH_VARARGS, "Method to collect genomic sequences"},
     {NULL, NULL, 0, NULL}
 };
 

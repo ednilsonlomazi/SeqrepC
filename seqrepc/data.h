@@ -5,6 +5,8 @@ typedef void SegmentWriter(FILE*, PyObject*);
 typedef PyObject* SegmentReader(char*, unsigned);
 typedef PyObject* EncodedSeqsReader(char*);
 
+PyObject* collect_raw_data(char* source);
+
 SegmentWriter write_float_segment;
 SegmentWriter write_int_segment;
 SegmentWriter write_complex_segment;
