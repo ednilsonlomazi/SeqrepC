@@ -51,6 +51,6 @@ bool mp_hash_table_insert(MpStruct* mps_item){
 }
 
 void mp_hash_table_init(){
-	//for (int i = 0; i < MAPPING_NUM; ++i) mp_hash_table[i] = NULL; // the default values is NULL ???
+	for (int i = 0; i < MAPPING_NUM; ++i) mp_hash_table[i] = NULL;
 	for (int i = 0; i < MAPPING_NUM; ++i) mp_hash_table_insert(&mps[i]);
 }

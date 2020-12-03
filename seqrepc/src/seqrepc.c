@@ -20,7 +20,7 @@ static PyObject* method_collect_encodings(PyObject *self, PyObject *args) {
     return collect_encodings(mapping_signature, source);
                
 }  
-                                        
+                                         
 static PyObject* method_store(PyObject *self, PyObject *args) {
     
     char* mapping_signature = NULL;
