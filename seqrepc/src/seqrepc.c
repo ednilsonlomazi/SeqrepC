@@ -1,7 +1,7 @@
 #define PY_SSIZE_T_CLEAN 
 #include <Python.h>
 #include "./core/core.c"     
-    
+        
 static PyObject* method_collect_fasta(PyObject *self, PyObject *args) {
     
     char* source = NULL; 

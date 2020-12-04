@@ -237,4 +237,3 @@ PyObject* voss(char* raw_seq, unsigned seq_size){
 	}
 	return Py_BuildValue("OOOO", tuple_a, tuple_t, tuple_c, tuple_g);
 }
-
