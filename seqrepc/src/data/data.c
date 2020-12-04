@@ -14,7 +14,7 @@ int get_seq_size(char* line){
 PyObject* read_int_segment(char* line, unsigned encoded_seq_size) {
    PyObject* axis = PyTuple_New(encoded_seq_size);
    const char separator[2] = ",";
-   char* token;
+   char* token; 
    token = strtok(line, separator);
    int i = 0;
    while(token != NULL){
@@ -46,7 +46,7 @@ void write_float_segment(FILE* file, PyObject* seq){
     }
     fprintf(file, "\n");
 }
-
+ 
 void write_int_segment(FILE* file, PyObject* seq){
     fprintf(file, "%ld", PyLong_AsLong(PyTuple_GetItem(seq, 0)));
 	for (int j = 1; j < PyTuple_Size(seq); ++j){
@@ -167,28 +167,10 @@ PyObject* write_one(PyObject* seqs, PyObject* seqs_info, char* dst, SegmentWrite
     
     for (int seq_id = 0; seq_id < PyTuple_Size(seqs); ++seq_id){
         PyObject* item = PyTuple_GetItem(seqs, seq_id);
-        size_t seq_size = PyTuple_Size(item); 
-        fprintf(fp, "%s |%d\n", PyBytes_AsString(PyTuple_GetItem(seqs_info, seq_id)), seq_size);
-        (*segment_writer)(fp, item);
-        fprintf(fp, "\n");    
-    } 
-    fclose(fp);
-    return Py_True;
-}
-
-PyObject* write_onee(PyObject* seqs, PyObject* seqs_info, char* dst, SegmentWriter* segment_writer){
-    FILE* fp;
-    fp = fopen(dst, "w+");
-    /* - - - loop 0 - - - */
-    PyObject* item_0 = PyTuple_GetItem(seqs, 0);
-    size_t seq_size = PyTuple_Size(item_0);
-    fprintf(fp, "%s |%d\n", PyBytes_AsString(PyTuple_GetItem(seqs_info, 0)), seq_size);
-    (*segment_writer)(fp, item_0);
-    fprintf(fp, "\n");
-    /* - - - - - - - - - */
-    for (int seq_id = 1; seq_id < PyTuple_Size(seqs); ++seq_id){
-        PyObject* item = PyTuple_GetItem(seqs, seq_id);
-        seq_size = PyTuple_Size(item); 
+        size_t seq_size = PyTuple_Size(item);
+        if(segment_writer == &write_complex_segment){
+            seq_size *= 2;
+        } 
         fprintf(fp, "%s |%d\n", PyBytes_AsString(PyTuple_GetItem(seqs_info, seq_id)), seq_size);
         (*segment_writer)(fp, item);
         fprintf(fp, "\n");    

@@ -3,19 +3,17 @@ PyObject* binary_4b(char* raw_seq, unsigned seq_size){
 	short int x, y, z, t;
 
 	for (int i = 0; i < seq_size; ++i){
-		if(raw_seq[i] == 'A') {x = 1; y = z = t = 0;}
-		else{
-			if(raw_seq[i] == 'T') {y = 1; x = z = t = 0;}
-			else{
-				if(raw_seq[i] == 'C') {t = 1; x = y = z = 0;}
-				else{
-					if(raw_seq[i] == 'G') {z = 1; x = y = t = 0;}
-					else{
-						PyErr_SetString(PyExc_KeyError, "Sequence is not complete");
-						return NULL;
-					}	
-				}
-			}
+		char base = raw_seq[i];
+		switch(base){
+			case 'A': x = 1; y = z = t = 0;
+			break;
+			case 'T': y = 1; x = z = t = 0;
+			break;
+			case 'C': t = 1; x = y = z = 0;
+			break;
+			case 'G': z = 1; x = y = t = 0;
+			break;
+			default: PyErr_SetString(PyExc_KeyError, "Sequence is not complete"); return NULL;
 		}
 		PyTuple_SetItem(tuple, i*4, PyLong_FromLong(x));
 		PyTuple_SetItem(tuple, 1 + i*4, PyLong_FromLong(y));
@@ -30,19 +28,17 @@ PyObject* binary_2b(char* raw_seq, unsigned seq_size){
 	short int x, y;
 
 	for (int i = 0; i < seq_size; ++i){
-		if(raw_seq[i] == 'A') x = y = 0;
-		else{
-			if(raw_seq[i] == 'T') {x = 0; y = 1;}
-			else{
-				if(raw_seq[i] == 'C') x = y = 1;
-				else{
-					if(raw_seq[i] == 'G') {x = 1; y = 0;}
-					else{
-						PyErr_SetString(PyExc_KeyError, "Sequence is not complete");
-						return NULL;
-					}	
-				}
-			}
+		char base = raw_seq[i];
+		switch(base){
+			case 'A': x = y = 0;
+			break;
+			case 'T': x = 0; y = 1;
+			break;
+			case 'C': x = y = 1;
+			break;
+			case 'G': x = 1; y = 0;
+			break;
+			default: PyErr_SetString(PyExc_KeyError, "Sequence is not complete"); return NULL;
 		}
 		PyTuple_SetItem(tuple, i*2, PyLong_FromLong(x));
 		PyTuple_SetItem(tuple, 1 + i*2, PyLong_FromLong(y));
@@ -80,25 +76,21 @@ PyObject* dna_walk(char* raw_seq, unsigned seq_size){
 	}
 	return tuple;
 }
-
-
-
+ 
 PyObject* nucleotide_mapping(char* raw_seq, unsigned int seq_size, PyObject* mapping_values){
 	PyObject* tuple = PyTuple_New(seq_size);
 	for (int i = 0; i < seq_size; ++i){
-		if (raw_seq[i] == 'A') PyTuple_SetItem(tuple, i, PyTuple_GetItem(mapping_values, 0));
-		else {
-			if (raw_seq[i] == 'T') PyTuple_SetItem(tuple, i, PyTuple_GetItem(mapping_values, 1));
-			else{
-				if (raw_seq[i] == 'C') PyTuple_SetItem(tuple, i, PyTuple_GetItem(mapping_values, 2));
-				else{
-					if (raw_seq[i] == 'G') PyTuple_SetItem(tuple, i, PyTuple_GetItem(mapping_values, 3));
-					else{
-						PyErr_SetString(PyExc_KeyError, "Sequence is not complete");
-						return NULL;
-					}
-				}	
-			} 
+		char base = raw_seq[i];
+		switch(base){
+			case 'A': PyTuple_SetItem(tuple, i, PyTuple_GetItem(mapping_values, 0));
+			break;
+			case 'T': PyTuple_SetItem(tuple, i, PyTuple_GetItem(mapping_values, 1));
+			break;
+			case 'C': PyTuple_SetItem(tuple, i, PyTuple_GetItem(mapping_values, 2));
+			break;
+			case 'G': PyTuple_SetItem(tuple, i, PyTuple_GetItem(mapping_values, 3));
+			break;
+			default: PyErr_SetString(PyExc_KeyError, "Sequence is not complete"); return NULL;
 		}
 	}
 	return tuple;
