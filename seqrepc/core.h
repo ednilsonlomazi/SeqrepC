@@ -3,6 +3,8 @@
 
 #include <Python.h>
 
+typedef enum {true, false} bool;
+
 #include "./encoder.h"
 #include "./data.h"
 
