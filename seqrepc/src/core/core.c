@@ -41,13 +41,12 @@ PyObject* collect_fasta(char* source){
     PyObject* seqs_data = PyList_New(0);
     PyObject* seqs_info = PyList_New(0);
     PyObject* seqs_lines = NULL;
-    PyObject* fasta_pack = PyTuple_New(2);
  
     char* file_str = get_file_str(source);
 
     const char* s = "\n";
     char* token = strtok(file_str, s);
-    while( token != NULL ){
+    while(token != NULL){
         if(token[0] == '>'){
             if(seqs_lines != NULL){
                 PyList_Append(seqs_data, seqs_lines);   
@@ -61,14 +60,11 @@ PyObject* collect_fasta(char* source){
         if((token = strtok(NULL, s)) == NULL)
             PyList_Append(seqs_data, seqs_lines);
     }
-
-    PyTuple_SetItem(fasta_pack, 0, seqs_data);
-    PyTuple_SetItem(fasta_pack, 1, seqs_info);
     
-    if(file_str){
+    if(file_str != NULL){
         free(file_str);
         file_str = NULL;
     }
-    return fasta_pack;
+    return Py_BuildValue("OO", seqs_data, seqs_info);
 }
 

@@ -66,8 +66,6 @@ PyObject* read_many(SegmentReader* segment_reader, char* source){
     PyObject* seqs_encoded = PyList_New(0);
     PyObject* seq_encoded = PyList_New(0);
     PyObject* seqs_info = PyList_New(0);
-    PyObject* read_pack = PyTuple_New(2);
-
 
     char* line_buf = NULL;
     size_t line_buf_size = 0;
@@ -98,15 +96,12 @@ PyObject* read_many(SegmentReader* segment_reader, char* source){
         line_size = getline(&line_buf, &line_buf_size, fp);
     }
     fclose(fp);
-    PyTuple_SetItem(read_pack, 0, seqs_encoded);
-    PyTuple_SetItem(read_pack, 1, seqs_info);
-    return read_pack;
+    return Py_BuildValue("OO", seqs_encoded, seqs_info);
 }
 
 PyObject* read_one(SegmentReader* segment_reader, char* source){
     PyObject* seqs_encoded = PyList_New(0);
     PyObject* seqs_info = PyList_New(0);
-    PyObject* read_pack = PyTuple_New(2);
 
     char* line_buf = NULL;
     size_t line_buf_size = 0;
@@ -132,9 +127,7 @@ PyObject* read_one(SegmentReader* segment_reader, char* source){
         line_size = getline(&line_buf, &line_buf_size, fp);
     }
     fclose(fp);
-    PyTuple_SetItem(read_pack, 0, seqs_encoded);
-    PyTuple_SetItem(read_pack, 1, seqs_info);
-    return read_pack;
+    return Py_BuildValue("OO", seqs_encoded, seqs_info);
 }
 
 PyObject* write_many(PyObject* seqs, PyObject* seqs_info, char* dst, SegmentWriter* segment_writer){
