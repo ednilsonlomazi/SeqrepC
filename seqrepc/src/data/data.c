@@ -1,9 +1,8 @@
 
 int get_seq_size(char* line){
-    const char separator[2] = "|";
-    char* token;
+    const char* separator = "|";
     char* last_token = NULL;
-    token = strtok(line, separator);
+    char* token = strtok(line, separator);
     while(token != NULL) {
         last_token = token;
         token = strtok(NULL, separator);
@@ -13,9 +12,8 @@ int get_seq_size(char* line){
 
 PyObject* read_int_segment(char* line, unsigned encoded_seq_size) {
    PyObject* axis = PyTuple_New(encoded_seq_size);
-   const char separator[2] = ",";
-   char* token; 
-   token = strtok(line, separator);
+   const char* separator = ",";
+   char* token = strtok(line, separator);
    int i = 0;
    while(token != NULL){
         PyTuple_SetItem(axis, i, PyLong_FromString(token, &token, 10));
@@ -27,9 +25,8 @@ PyObject* read_int_segment(char* line, unsigned encoded_seq_size) {
  
 PyObject* read_float_segment(char* line, unsigned encoded_seq_size) {
    PyObject* axis = PyTuple_New(encoded_seq_size);
-   const char separator[2] = ",";
-   char* token;
-   token = strtok(line, separator);
+   const char* separator = ",";
+   char* token = strtok(line, separator);
    int i = 0;
    while(token != NULL){
         PyTuple_SetItem(axis, i, PyFloat_FromString(PyUnicode_FromString(token)));

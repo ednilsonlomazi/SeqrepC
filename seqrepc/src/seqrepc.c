@@ -10,7 +10,7 @@ static PyObject* method_collect_fasta(PyObject *self, PyObject *args) {
     return collect_fasta(source);
                     
 }      
-                
+                  
 static PyObject* method_collect_encodings(PyObject *self, PyObject *args) {
      
     char* mapping_signature = NULL;
@@ -44,8 +44,7 @@ static PyObject* method_encode(PyObject *self, PyObject *args) {
     return encode(raw_seq, seq_size, mapping_signature);
 
 }
-      
-
+           
 static PyMethodDef SeqrepC_Methods[] = {
     {"encode", method_encode, METH_VARARGS, "Method to convert genomic sequence to numerical sequence"},
     {"store", method_store, METH_VARARGS, "Method to store numerical sequences"},

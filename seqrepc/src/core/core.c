@@ -45,11 +45,8 @@ PyObject* collect_fasta(char* source){
  
     char* file_str = get_file_str(source);
 
-    const char s[2] = "\n";
-    char* token;
-    
-    token = strtok(file_str, s);
-
+    const char* s = "\n";
+    char* token = strtok(file_str, s);
     while( token != NULL ){
         if(token[0] == '>'){
             if(seqs_lines != NULL){
@@ -68,6 +65,10 @@ PyObject* collect_fasta(char* source){
     PyTuple_SetItem(fasta_pack, 0, seqs_data);
     PyTuple_SetItem(fasta_pack, 1, seqs_info);
     
+    if(file_str){
+        free(file_str);
+        file_str = NULL;
+    }
     return fasta_pack;
 }
 
