@@ -1,8 +1,9 @@
 
-PyObject* cgr(char* raw_seq, unsigned seq_size){
-
-	PyObject* tuple_x = PyTuple_New(seq_size + 1);
+PyObject* cgr(char* raw_seq){
+	size_t seq_size = strlen(raw_seq);
+	PyObject* tuple_x = PyTuple_New(seq_size + 1); // new reference. I must defref if it has not beeing stoled after.
 	PyObject* tuple_y = PyTuple_New(seq_size + 1);
+	PyObject* tuple = PyTuple_New(2);
 
 	char base;
 	double last_x = 0.5;
@@ -31,16 +32,22 @@ PyObject* cgr(char* raw_seq, unsigned seq_size){
 		
 		last_x *= 0.5;
 		last_y *= 0.5;
-		PyTuple_SetItem(tuple_x, i+1, PyFloat_FromDouble(last_x)); // [1, N]
-		PyTuple_SetItem(tuple_y, i+1, PyFloat_FromDouble(last_y)); // [1, N]	
+		PyTuple_SetItem(tuple_x, i+1, PyFloat_FromDouble(last_x)); // [1, N] // tuple_x takes ownership (responsability to defref) of PyFloat_From...
+		PyTuple_SetItem(tuple_y, i+1, PyFloat_FromDouble(last_y)); // [1, N] // tuple_y takes ownership (responsability to defref) of PyFloat_From...
 	}
-	return Py_BuildValue("OO", tuple_x, tuple_y);
+
+	PyTuple_SetItem(tuple, 0, tuple_x);
+	PyTuple_SetItem(tuple, 1, tuple_y);
+
+	return tuple; // caller responsability to decref tuple. Caller is encode function, that is called by method_encoded, called by Python code.
 }
 
-PyObject* zcurve(char* raw_seq, unsigned seq_size){
+PyObject* zcurve(char* raw_seq){
+	size_t seq_size = strlen(raw_seq);
 	PyObject* tuple_x = PyTuple_New(seq_size+1);
 	PyObject* tuple_y = PyTuple_New(seq_size+1);
 	PyObject* tuple_z = PyTuple_New(seq_size+1);
+	PyObject* tuple = PyTuple_New(3);
 
 	long int count_a, count_t, count_c, count_g;
 	count_a = count_t = count_c = count_g = 0;
@@ -72,14 +79,17 @@ PyObject* zcurve(char* raw_seq, unsigned seq_size){
 		PyTuple_SetItem(tuple_y, i+1, PyFloat_FromDouble(y));
 		PyTuple_SetItem(tuple_z, i+1, PyFloat_FromDouble(z));
 	}
-	return Py_BuildValue("OOO", tuple_x, tuple_y, tuple_z);
-
+	PyTuple_SetItem(tuple, 0, tuple_x);
+	PyTuple_SetItem(tuple, 1, tuple_y);
+	PyTuple_SetItem(tuple, 2, tuple_z);
+	return tuple;  
 }
 
-PyObject* icgr(char* raw_seq, unsigned seq_size){
-
+PyObject* icgr(char* raw_seq){
+	size_t seq_size = strlen(raw_seq);
 	PyObject* tuple_x = PyTuple_New(seq_size);
 	PyObject* tuple_y = PyTuple_New(seq_size);
+	PyObject* tuple = PyTuple_New(2);
 	
 	long long int last_x = 1; // SEE IF THE USER IS USING C99 for suport long long int
 	long long int last_y = 1;
@@ -122,14 +132,18 @@ PyObject* icgr(char* raw_seq, unsigned seq_size){
 		PyTuple_SetItem(tuple_x, i, PyLong_FromLong(last_x)); // [1, N-1]
 		PyTuple_SetItem(tuple_y, i, PyLong_FromLong(last_y)); // [1, N-1]	
 	}
-	return Py_BuildValue("OO", tuple_x, tuple_y);
+	PyTuple_SetItem(tuple, 0, tuple_x);
+	PyTuple_SetItem(tuple, 1, tuple_y);
+	return tuple;  
 }
 
-PyObject* liao(char* raw_seq, unsigned seq_size){
+PyObject* liao(char* raw_seq){
+	size_t seq_size = strlen(raw_seq);
 	const double m = 3.0/4.0, sqrt_n = sqrt(0.5);
 
 	PyObject* tuple_x = PyTuple_New(seq_size+1);
 	PyObject* tuple_y = PyTuple_New(seq_size+1);
+	PyObject* tuple = PyTuple_New(2);
 
 	long int count_a, count_t, count_c, count_g;
 	count_a = count_t = count_c = count_g = 0;
@@ -158,15 +172,19 @@ PyObject* liao(char* raw_seq, unsigned seq_size){
 		PyTuple_SetItem(tuple_x, i+1, PyFloat_FromDouble(x));
 		PyTuple_SetItem(tuple_y, i+1, PyFloat_FromDouble(y));
 	}
-	return Py_BuildValue("OO", tuple_x, tuple_y);
+	PyTuple_SetItem(tuple, 0, tuple_x);
+	PyTuple_SetItem(tuple, 1, tuple_y);
+	return tuple;  
 }
 
 
-PyObject* tetrahedron(char* raw_seq, unsigned seq_size){
+PyObject* tetrahedron(char* raw_seq){
 	// Mendizabal-Ruiz et al. (2017) On DNA numerical representations for genomic similarity computation
+	size_t seq_size = strlen(raw_seq);
 	PyObject* tuple_x = PyTuple_New(seq_size);
 	PyObject* tuple_y = PyTuple_New(seq_size);
 	PyObject* tuple_z = PyTuple_New(seq_size);
+	PyObject* tuple = PyTuple_New(3);
 
 	char base;
 
@@ -196,14 +214,19 @@ PyObject* tetrahedron(char* raw_seq, unsigned seq_size){
 			default: PyErr_SetString(PyExc_KeyError, "Sequence is not complete"); return NULL;
 		}
 	}
-	return Py_BuildValue("OOO", tuple_x, tuple_y, tuple_z);
+	PyTuple_SetItem(tuple, 0, tuple_x);
+	PyTuple_SetItem(tuple, 1, tuple_y);
+	PyTuple_SetItem(tuple, 2, tuple_z);
+	return tuple; 
 }
 
-PyObject* voss(char* raw_seq, unsigned seq_size){
+PyObject* voss(char* raw_seq){
+	size_t seq_size = strlen(raw_seq);
 	PyObject* tuple_a = PyTuple_New(seq_size);
 	PyObject* tuple_t = PyTuple_New(seq_size);
 	PyObject* tuple_c = PyTuple_New(seq_size);
 	PyObject* tuple_g = PyTuple_New(seq_size);
+	PyObject* tuple = PyTuple_New(4);
 
 	for (int i = 0; i < seq_size; ++i){
 		char base = raw_seq[i];
@@ -235,5 +258,9 @@ PyObject* voss(char* raw_seq, unsigned seq_size){
 			default: PyErr_SetString(PyExc_KeyError, "Sequence is not complete"); return NULL;		
 		} 	
 	}
-	return Py_BuildValue("OOOO", tuple_a, tuple_t, tuple_c, tuple_g);
+	PyTuple_SetItem(tuple, 0, tuple_a);
+	PyTuple_SetItem(tuple, 1, tuple_t);
+	PyTuple_SetItem(tuple, 2, tuple_c);
+	PyTuple_SetItem(tuple, 3, tuple_g);
+	return tuple; 
 }

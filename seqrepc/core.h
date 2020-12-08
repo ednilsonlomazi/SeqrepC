@@ -36,7 +36,7 @@ typedef struct MpStruct{
 	MpStructManyD* many_d;
 } MpStruct;
 
-PyObject* encode(char*, unsigned, char*);
+PyObject* encode(char*, char*);
 PyObject* store(PyObject*, PyObject*, char*, char*);
 PyObject* collect_encodings(char*, char*);
 PyObject* collect_fasta(char*);

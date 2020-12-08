@@ -15,11 +15,13 @@ char* get_file_str(char* source){
 	if ((file_str = malloc(length)) != NULL){
 		if(fread(file_str, 1, length, file) < length){
 			fprintf(stderr, "%s %s\n", "Error on reading fasta file", source);
-			free(file_str);
+			free(file_str); // not here
 			file_str = NULL;
 			return NULL;
 		}
 	}
-	fclose(file);	
+	if(file != NULL){
+		fclose(file);	
+	}
 	return file_str;
 }

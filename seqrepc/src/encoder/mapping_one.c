@@ -1,4 +1,5 @@
-PyObject* binary_4b(char* raw_seq, unsigned seq_size){
+PyObject* binary_4b(char* raw_seq){
+	size_t seq_size = strlen(raw_seq);
 	PyObject* tuple = PyTuple_New(4*seq_size);
 	short int x, y, z, t;
 
@@ -23,7 +24,8 @@ PyObject* binary_4b(char* raw_seq, unsigned seq_size){
 	return tuple;
 }
 
-PyObject* binary_2b(char* raw_seq, unsigned seq_size){
+PyObject* binary_2b(char* raw_seq){
+	size_t seq_size = strlen(raw_seq);
 	PyObject* tuple = PyTuple_New(2*seq_size);
 	short int x, y;
 
@@ -46,7 +48,8 @@ PyObject* binary_2b(char* raw_seq, unsigned seq_size){
 	return tuple;
 }
 
-PyObject* dna_walk(char* raw_seq, unsigned seq_size){
+PyObject* dna_walk(char* raw_seq){
+	size_t seq_size = strlen(raw_seq);
 	PyObject* tuple = PyTuple_New(seq_size);
 	long int last_value;
 	char base = raw_seq[0];
@@ -76,13 +79,15 @@ PyObject* dna_walk(char* raw_seq, unsigned seq_size){
 	}
 	return tuple;
 }
- 
-PyObject* nucleotide_mapping(char* raw_seq, unsigned int seq_size, PyObject* mapping_values){
+
+
+PyObject* nucleotide_mapping(char* raw_seq, PyObject* mapping_values){
+	size_t seq_size = strlen(raw_seq);
 	PyObject* tuple = PyTuple_New(seq_size);
 	for (int i = 0; i < seq_size; ++i){
 		char base = raw_seq[i];
 		switch(base){
-			case 'A': PyTuple_SetItem(tuple, i, PyTuple_GetItem(mapping_values, 0));
+			case 'A': PyTuple_SetItem(tuple, i, PyTuple_GetItem(mapping_values, 0)); 
 			break;
 			case 'T': PyTuple_SetItem(tuple, i, PyTuple_GetItem(mapping_values, 1));
 			break;
@@ -96,79 +101,102 @@ PyObject* nucleotide_mapping(char* raw_seq, unsigned int seq_size, PyObject* map
 	return tuple;
 }
 
-PyObject* atomic(char* raw_seq, unsigned seq_size){
-	PyObject* mapping_values = PyTuple_New(4);
-	
-	PyTuple_SetItem(mapping_values, 0, PyLong_FromLong(70));
-	PyTuple_SetItem(mapping_values, 1, PyLong_FromLong(66));
-	PyTuple_SetItem(mapping_values, 2, PyLong_FromLong(58));
-	PyTuple_SetItem(mapping_values, 3, PyLong_FromLong(78));
-	
-	return nucleotide_mapping(raw_seq, seq_size, mapping_values);
+PyObject* int_nucleotide_mapping(char* raw_seq, int* mapping_values){
+	size_t seq_size = strlen(raw_seq);
+	PyObject* tuple = PyTuple_New(seq_size);
+	for (int i = 0; i < seq_size; ++i){
+		char base = raw_seq[i];
+		switch(base){
+			case 'A': PyTuple_SetItem(tuple, i, PyLong_FromLong(mapping_values[0])); 
+			break;
+			case 'T': PyTuple_SetItem(tuple, i, PyLong_FromLong(mapping_values[1]));
+			break;
+			case 'C': PyTuple_SetItem(tuple, i, PyLong_FromLong(mapping_values[2]));
+			break;
+			case 'G': PyTuple_SetItem(tuple, i, PyLong_FromLong(mapping_values[3]));
+			break;
+			default: PyErr_SetString(PyExc_KeyError, "Sequence is not complete"); return NULL;
+		}
+	}
+	return tuple;
 }
 
-PyObject* molecular_mass(char* raw_seq, unsigned seq_size){
-	PyObject* mapping_values = PyTuple_New(4);
-	
-	PyTuple_SetItem(mapping_values, 0, PyLong_FromLong(134));
-	PyTuple_SetItem(mapping_values, 1, PyLong_FromLong(125));
-	PyTuple_SetItem(mapping_values, 2, PyLong_FromLong(110));
-	PyTuple_SetItem(mapping_values, 3, PyLong_FromLong(150));
-	
-	return nucleotide_mapping(raw_seq, seq_size, mapping_values);
+PyObject* double_nucleotide_mapping(char* raw_seq, double* mapping_values){
+	size_t seq_size = strlen(raw_seq);
+	PyObject* tuple = PyTuple_New(seq_size);
+	for (int i = 0; i < seq_size; ++i){
+		char base = raw_seq[i];
+		switch(base){
+			case 'A': PyTuple_SetItem(tuple, i, PyLong_FromDouble(mapping_values[0])); 
+			break;
+			case 'T': PyTuple_SetItem(tuple, i, PyLong_FromDouble(mapping_values[1]));
+			break;
+			case 'C': PyTuple_SetItem(tuple, i, PyLong_FromDouble(mapping_values[2]));
+			break;
+			case 'G': PyTuple_SetItem(tuple, i, PyLong_FromDouble(mapping_values[3]));
+			break;
+			default: PyErr_SetString(PyExc_KeyError, "Sequence is not complete"); return NULL;
+		}
+	}
+	return tuple;
 }
 
-PyObject* eiip(char* raw_seq, unsigned seq_size){
-	PyObject* mapping_values = PyTuple_New(4);
-	
-	PyTuple_SetItem(mapping_values, 0, PyFloat_FromDouble(0.1260));
-	PyTuple_SetItem(mapping_values, 1, PyFloat_FromDouble(0.1335));
-	PyTuple_SetItem(mapping_values, 2, PyFloat_FromDouble(0.1340));
-	PyTuple_SetItem(mapping_values, 3, PyFloat_FromDouble(0.0806));
-	
-	return nucleotide_mapping(raw_seq, seq_size, mapping_values);
+PyObject* complex_nucleotide_mapping(char* raw_seq, Py_complex* mapping_values){
+	size_t seq_size = strlen(raw_seq);
+	PyObject* tuple = PyTuple_New(seq_size);
+	for (int i = 0; i < seq_size; ++i){
+		char base = raw_seq[i];
+		switch(base){
+			case 'A': PyTuple_SetItem(tuple, i, PyComplex_FromDoubles(mapping_values[0].real, mapping_values[0].imag)); 
+			break;
+			case 'T': PyTuple_SetItem(tuple, i, PyComplex_FromDoubles(mapping_values[1].real, mapping_values[1].imag));
+			break;
+			case 'C': PyTuple_SetItem(tuple, i, PyComplex_FromDoubles(mapping_values[2].real, mapping_values[2].imag));
+			break;
+			case 'G': PyTuple_SetItem(tuple, i, PyComplex_FromDoubles(mapping_values[3].real, mapping_values[3].imag));
+			break;
+			default: PyErr_SetString(PyExc_KeyError, "Sequence is not complete"); return NULL;
+		}
+	}
+	return tuple;
 }
 
-PyObject* imaginary(char* raw_seq, unsigned seq_size){
-	PyObject* mapping_values = PyTuple_New(4);
-	
-	PyTuple_SetItem(mapping_values, 0, PyComplex_FromDoubles(1.0, 1.0));
-	PyTuple_SetItem(mapping_values, 1, PyComplex_FromDoubles(1.0, -1.0));
-	PyTuple_SetItem(mapping_values, 2, PyComplex_FromDoubles(-1.0, 1.0));
-	PyTuple_SetItem(mapping_values, 3, PyComplex_FromDoubles(-1.0, -1.0));
-	
-	return nucleotide_mapping(raw_seq, seq_size, mapping_values);
+PyObject* atomic(char* raw_seq){
+	int mapping_values[] = {70, 66, 58, 78};
+	return int_nucleotide_mapping(raw_seq, mapping_values);
 }
 
-PyObject* paired_numeric(char* raw_seq, unsigned seq_size){
-	PyObject* mapping_values = PyTuple_New(4);
-	
-	PyTuple_SetItem(mapping_values, 0, PyLong_FromLong(1));
-	PyTuple_SetItem(mapping_values, 1, PyLong_FromLong(1));
-	PyTuple_SetItem(mapping_values, 2, PyLong_FromLong(-1));
-	PyTuple_SetItem(mapping_values, 3, PyLong_FromLong(-1));
-	
-	return nucleotide_mapping(raw_seq, seq_size, mapping_values);
+PyObject* molecular_mass(char* raw_seq){
+	int mapping_values[] = {134, 125, 110, 150};
+	return int_nucleotide_mapping(raw_seq, mapping_values);
 }
 
-PyObject* integer(char* raw_seq, unsigned seq_size){
-	PyObject* mapping_values = PyTuple_New(4);
-	
-	PyTuple_SetItem(mapping_values, 0, PyLong_FromLong(2));
-	PyTuple_SetItem(mapping_values, 1, PyLong_FromLong(0));
-	PyTuple_SetItem(mapping_values, 2, PyLong_FromLong(1));
-	PyTuple_SetItem(mapping_values, 3, PyLong_FromLong(3));
-	
-	return nucleotide_mapping(raw_seq, seq_size, mapping_values);
+PyObject* eiip(char* raw_seq){
+	double mapping_values[] = {0.1260, 0.1335, 1340, 0.0806};
+	return double_nucleotide_mapping(raw_seq, mapping_values);
 }
 
-PyObject* real(char* raw_seq, unsigned seq_size){
-	PyObject* mapping_values = PyTuple_New(4);
-	
-	PyTuple_SetItem(mapping_values, 0, PyFloat_FromDouble(-1.5));
-	PyTuple_SetItem(mapping_values, 1, PyFloat_FromDouble(1.5));
-	PyTuple_SetItem(mapping_values, 2, PyFloat_FromDouble(0.5));
-	PyTuple_SetItem(mapping_values, 3, PyFloat_FromDouble(-0.5));
-	
-	return nucleotide_mapping(raw_seq, seq_size, mapping_values);
+PyObject* imaginary(char* raw_seq){
+	Py_complex mapping_values[] = {
+		{.real = 1.0, .imag = 1.0},
+		{.real = 1.0, .imag = -1.0},
+		{.real = -1.0, .imag = 1.0},
+		{.real = -1.0, .imag = -1.0},
+	};
+	return complex_nucleotide_mapping(raw_seq, mapping_values);
+}
+
+PyObject* paired_numeric(char* raw_seq){
+	int mapping_values[] = {1,1,-1,-1};
+	return int_nucleotide_mapping(raw_seq, mapping_values);
+}
+
+PyObject* integer(char* raw_seq){
+	int mapping_values[] = {2,0,1,3};
+	return int_nucleotide_mapping(raw_seq, mapping_values);
+}
+
+PyObject* real(char* raw_seq){
+	double mapping_values[] = {-1.5, 1.5, 0.5, -0.5};
+	return double_nucleotide_mapping(raw_seq, mapping_values);
 }

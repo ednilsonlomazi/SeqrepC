@@ -2,17 +2,17 @@
 #include "../encoder/encoder.c"
 #include "../data/data.c"
 #include "./mps_struct.c"
-#include "./hash_tables.c"
-
-PyObject* encode(char* raw_seq, unsigned seq_size, char* mp_signature){
+#include "./hash_tables.c" 
+ 
+PyObject* encode(char* raw_seq, char* mp_signature){
 	if(mp_hash_table[0] != NULL){
 		MpStruct* mps = mp_hash_table_lookup(mp_signature);
 		if(mps->one_d != NULL)
-			return (*(mps->one_d->mp))(raw_seq, seq_size);
-		return (*(mps->many_d->mp))(raw_seq, seq_size);
+			return (*(mps->one_d->mp))(raw_seq);
+		return (*(mps->many_d->mp))(raw_seq);
 	}
 	mp_hash_table_init();
-	return encode(raw_seq, seq_size, mp_signature);
+	return encode(raw_seq, mp_signature);
 }
 
 PyObject* store(PyObject* seqs, PyObject* seqs_info, char* mapping_signature, char* dst){
@@ -60,7 +60,7 @@ PyObject* collect_fasta(char* source){
         if((token = strtok(NULL, s)) == NULL)
             PyList_Append(seqs_data, seqs_lines);
     }
-    
+    // not here
     if(file_str != NULL){
         free(file_str);
         file_str = NULL;
