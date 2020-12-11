@@ -127,13 +127,13 @@ PyObject* double_nucleotide_mapping(char* raw_seq, double* mapping_values){
 	for (int i = 0; i < seq_size; ++i){
 		char base = raw_seq[i];
 		switch(base){
-			case 'A': PyTuple_SetItem(tuple, i, PyLong_FromDouble(mapping_values[0])); 
+			case 'A': PyTuple_SetItem(tuple, i, PyFloat_FromDouble(mapping_values[0])); 
 			break;
-			case 'T': PyTuple_SetItem(tuple, i, PyLong_FromDouble(mapping_values[1]));
+			case 'T': PyTuple_SetItem(tuple, i, PyFloat_FromDouble(mapping_values[1]));
 			break;
-			case 'C': PyTuple_SetItem(tuple, i, PyLong_FromDouble(mapping_values[2]));
+			case 'C': PyTuple_SetItem(tuple, i, PyFloat_FromDouble(mapping_values[2]));
 			break;
-			case 'G': PyTuple_SetItem(tuple, i, PyLong_FromDouble(mapping_values[3]));
+			case 'G': PyTuple_SetItem(tuple, i, PyFloat_FromDouble(mapping_values[3]));
 			break;
 			default: PyErr_SetString(PyExc_KeyError, "Sequence is not complete"); return NULL;
 		}

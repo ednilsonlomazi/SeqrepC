@@ -54,6 +54,10 @@ PyObject* collect_fasta(char* source){
             PyList_Append(seqs_info, PyUnicode_FromString(token));
             seqs_lines = PyList_New(0);
         }else{
+            if(seqs_lines == NULL){
+                PyErr_SetString(PyExc_KeyError, "File is not on fasta format");
+                return NULL;
+            }
             PyList_Append(seqs_lines, PyUnicode_FromString(token));
         }
 
