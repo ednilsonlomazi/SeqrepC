@@ -24,4 +24,15 @@ char* get_file_str(char* source){
 		fclose(file);	
 	}
 	return file_str;
+} 
+
+bool is_genomic_sequence(char* seq){
+	bool is_gen_seq = true;
+	for (int i = 0; i < strlen(seq); ++i){
+		char base = seq[i];
+		if(base != 'A' && base != 'T' && base != 'U' && base != 'C' && base != 'G'){
+			is_gen_seq = false;
+		}
+	}
+	return is_gen_seq;
 }

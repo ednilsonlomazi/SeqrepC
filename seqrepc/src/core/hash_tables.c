@@ -2,11 +2,11 @@ unsigned hash(const char* mp_signature){
 	unsigned long hash = 5381;
     int c;
     while ((c = *mp_signature++)){
-        hash = ((hash << 5) + hash) + c;
+        hash = ((hash << 5) + hash) + c; 
     }
     return hash % MAPPING_NUM;
 }
-
+ 
 
 MpStruct* mp_hash_table_lookup(const char* mp_signature){
 	int start = hash(mp_signature);
@@ -25,7 +25,8 @@ MpStruct* mp_hash_table_lookup(const char* mp_signature){
 				return mp_hash_table[next];
 			}
 		}
-	}	
+	}
+	PyErr_SetString(PyExc_KeyError, "This numeric representation signature is not present on SeqrepC");	
 	return NULL;
 }
 
