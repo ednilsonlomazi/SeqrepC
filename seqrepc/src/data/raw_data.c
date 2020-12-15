@@ -1,10 +1,10 @@
 char* get_file_str(char* source){
 	char* file_str = NULL;
-	size_t length;
+	size_t length; 
 
 	FILE* file = fopen(source, "rb");
 	if(file == NULL){
-		fprintf(stderr, "%s %s\n", "Error on open fasta file", source);
+		PyErr_SetString(PyExc_ValueError, "An error ocurred when trying to open the file");
 		return NULL;
 	}
 
@@ -14,8 +14,8 @@ char* get_file_str(char* source){
 	fseek(file, 0, SEEK_SET);
 	if ((file_str = malloc(length)) != NULL){
 		if(fread(file_str, 1, length, file) < length){
-			fprintf(stderr, "%s %s\n", "Error on reading fasta file", source);
-			free(file_str); // not here
+			PyErr_SetString(PyExc_ValueError, "An error ocurred when trying to read the file");
+			free(file_str);
 			file_str = NULL;
 			return NULL;
 		}

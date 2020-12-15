@@ -28,7 +28,7 @@ PyObject* store(PyObject* seqs, PyObject* seqs_info, char* mapping_signature, ch
             }
             return (*(mps->many_d->rws->write))(seqs, seqs_info, dst);            
         }
-        return NULL;
+        return NULL; 
     }
     mp_hash_table_init();
     return store(seqs, seqs_info, mapping_signature, dst);
@@ -48,13 +48,14 @@ PyObject* collect_encodings(char* mapping_signature, char* source){
     mp_hash_table_init();
     return collect_encodings(mapping_signature, source);
 }
- 
+  
 PyObject* collect_fasta(char* source){
     PyObject* seqs_data = PyList_New(0);
     PyObject* seqs_info = PyList_New(0);
     PyObject* seqs_lines = NULL;
  
     char* file_str = get_file_str(source);
+    if(!file_str){return NULL;}
 
     const char* s = "\n";
     char* token = strtok(file_str, s);

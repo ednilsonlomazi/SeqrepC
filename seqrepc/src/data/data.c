@@ -8,7 +8,7 @@ int get_seq_size(char* line){
         token = strtok(NULL, separator);
     }
     return atoi(last_token);
-}
+} 
 
 PyObject* read_int_segment(char* line, unsigned encoded_seq_size) {
     PyObject* axis = PyTuple_New(encoded_seq_size);

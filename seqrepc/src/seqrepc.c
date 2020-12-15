@@ -1,7 +1,7 @@
 #define PY_SSIZE_T_CLEAN 
 #include <Python.h>
 #include "./core/core.c"        
-                   
+                     
 static PyObject* method_collect_fasta(PyObject *self, PyObject *args) {
     
     char* source = NULL; 
@@ -61,7 +61,7 @@ static PyMethodDef SeqrepC_Methods[] = {
 static struct PyModuleDef seqrepc = {
     PyModuleDef_HEAD_INIT,
     "seqrepc",
-    "Python interface for seqrepc C module",
+    "A Python/C module for fundamental operations related to numerical representations of genomic sequences",
     -1,
     SeqrepC_Methods
 };
