@@ -46,7 +46,7 @@ Currently, SeqrepC has 16 numerical representation methods identified by the sig
 * integer
 * icgr
 * molecular_mass
-* paired_numeric_mapping
+* paired_numeric
 * real
 * tetrahedron
 * voss
