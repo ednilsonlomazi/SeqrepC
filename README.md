@@ -55,7 +55,7 @@ Currently, SeqrepC has 16 numerical representation methods identified by the sig
 if you wanna numerical representations details, you can read [a short summary here](https://github.com/ednilsonlomazi/seqreppy/blob/main/nr_summary.pdf)
 
 ## Contributing
-If you have some new numerical representation developed by you or that is not present on Seqreppy, please, contribute! If you see some code that can be writed in a more efficient way, great! Let me know! 
+If you have some new numerical representation developed by you or that is not present on SeqrepC, please, contribute! If you see some code that can be writed in a more efficient way, great! Let me know! 
 If you saw interpretation erros in methods implementation, please, tell me, and i will make the corrections as soon as possible!
 
 ## Licences
