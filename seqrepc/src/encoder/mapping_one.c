@@ -47,25 +47,14 @@ PyObject* binary_2b(char* raw_seq){
 	}
 	return tuple;
 }
-
+  
 PyObject* dna_walk(char* raw_seq){
 	size_t seq_size = strlen(raw_seq);
 	PyObject* tuple = PyTuple_New(seq_size);
-	long int last_value;
+	long int last_value = 0;
 	char base = raw_seq[0];
-
-	if(base == 'A' || base == 'G') last_value = -1;
-	else{
-		if(base == 'T' || base == 'C' || base == 'U') last_value = 1;
-		else{
-			PyErr_SetString(PyExc_KeyError, "Sequence is not complete");
-			return NULL;
-		}
-	}
-
-	PyTuple_SetItem(tuple, 0, PyLong_FromLong(last_value));	
 	
-	for (int i = 1; i < seq_size; ++i){
+	for (int i = 0; i < seq_size; ++i){
 		base = raw_seq[i];
 		if(base == 'A' || base == 'G') last_value -= 1;
 		else{

@@ -1,6 +1,6 @@
 #define PY_SSIZE_T_CLEAN 
 #include <Python.h>
-#include "./core/core.c"       
+#include "./core/core.c"        
                   
 static PyObject* method_collect_fasta(PyObject *self, PyObject *args) {
     
@@ -9,8 +9,8 @@ static PyObject* method_collect_fasta(PyObject *self, PyObject *args) {
     if(!PyArg_ParseTuple(args, "s", &source)) return NULL; 
     return collect_fasta(source);
                      
-}                    
-                     
+}                     
+                       
 static PyObject* method_collect_encodings(PyObject *self, PyObject *args) {
      
     char* mapping_signature = NULL;
@@ -26,11 +26,16 @@ static PyObject* method_store(PyObject *self, PyObject *args) {
     char* mapping_signature = NULL; 
     char* dst = NULL;          
     
-    PyObject* seqs; 
+    PyObject* seqs;  
     PyObject* seqs_info; 
     
     if(!PyArg_ParseTuple(args, "OOss", &seqs, &seqs_info, &mapping_signature, &dst)) return NULL;
-    return store(seqs, seqs_info, mapping_signature, dst);
+    Py_INCREF(seqs);
+    Py_INCREF(seqs_info);
+    PyObject* result = store(seqs, seqs_info, mapping_signature, dst);
+    Py_DECREF(seqs);
+    Py_DECREF(seqs_info);
+    return result;
               
 }  
   

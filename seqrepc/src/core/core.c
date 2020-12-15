@@ -10,7 +10,7 @@ PyObject* encode(char* raw_seq, char* mp_signature){
 		if(mps != NULL){
             if(mps->one_d != NULL)
                 return (*(mps->one_d->mp))(raw_seq);
-            return (*(mps->many_d->mp))(raw_seq); // mps->many_d->mp(raw_seq) // works to !!             
+            return (*(mps->many_d->mp))(raw_seq); // mps->many_d->mp(raw_seq) // works too !!             
         }
         return NULL; // could be Py_None as well... however, with NULL the error message is much more clean
 	}
@@ -64,7 +64,7 @@ PyObject* collect_fasta(char* source){
             seqs_lines = PyList_New(0);
         }else{
             if(is_genomic_sequence(token) == false){
-                PyErr_SetString(PyExc_KeyError, "File is not on fasta format");
+                PyErr_SetString(PyExc_ValueError, "File is not on fasta format");
                 return NULL;
             }
             PyList_Append(seqs_lines, PyUnicode_FromString(token));

@@ -11,29 +11,29 @@ int get_seq_size(char* line){
 }
 
 PyObject* read_int_segment(char* line, unsigned encoded_seq_size) {
-   PyObject* axis = PyTuple_New(encoded_seq_size);
-   const char* separator = ",";
-   char* token = strtok(line, separator);
-   int i = 0;
-   while(token != NULL){
+    PyObject* axis = PyTuple_New(encoded_seq_size);
+    const char* separator = ",";
+    char* token = strtok(line, separator);
+    int i = 0;
+    while(token != NULL){
         PyTuple_SetItem(axis, i, PyLong_FromString(token, &token, 10));
         ++i;
         token = strtok(NULL, separator);
-   }
-   return axis;
+    }
+    return axis;
 }
  
 PyObject* read_float_segment(char* line, unsigned encoded_seq_size) {
-   PyObject* axis = PyTuple_New(encoded_seq_size);
-   const char* separator = ",";
-   char* token = strtok(line, separator);
-   int i = 0; 
-   while(token != NULL){
+    PyObject* axis = PyTuple_New(encoded_seq_size);
+    const char* separator = ",";
+    char* token = strtok(line, separator);
+    int i = 0; 
+    while(token != NULL){
         PyTuple_SetItem(axis, i, PyFloat_FromString(PyUnicode_FromString(token)));
         ++i;
         token = strtok(NULL, separator);
-   }
-   return axis;
+    }
+    return axis;
 }
 
 void write_float_segment(FILE* file, PyObject* seq){
@@ -81,7 +81,11 @@ PyObject* read_many(SegmentReader* segment_reader, char* source){
     
     FILE* fp = fopen(source, "r");
     if (!fp){
-        fprintf(stderr, "Error opening file '%s'\n", source);
+        Py_DECREF(seqs_encoded);
+        Py_DECREF(seqs_info);
+        Py_DECREF(seq_encoded);
+        Py_DECREF(pack);
+        PyErr_SetString(PyExc_ValueError, "An error ocurred when trying to open the file");
         return NULL;
     }
 
@@ -122,7 +126,10 @@ PyObject* read_one(SegmentReader* segment_reader, char* source){
     
     FILE* fp = fopen(source, "r");
     if (!fp){
-        fprintf(stderr, "Error opening file '%s'\n", source);
+        Py_DECREF(seqs_encoded);
+        Py_DECREF(seqs_info);
+        Py_DECREF(tuple);
+        PyErr_SetString(PyExc_ValueError, "An error ocurred when trying to open the file");
         return NULL;
     }
 
@@ -152,6 +159,13 @@ PyObject* write_many(PyObject* seqs, PyObject* seqs_info, char* dst, SegmentWrit
     Py_INCREF(seqs_info);
     FILE* fp = fopen(dst, "w+");
     
+    if(!fp){
+        Py_DECREF(seqs);
+        Py_DECREF(seqs_info);
+        PyErr_SetString(PyExc_ValueError, "An error ocurred when trying to open the file");
+        return NULL;
+    }
+
     for (int seq_id = 0; seq_id < PyTuple_Size(seqs); ++seq_id){
         PyObject* seq_encoded = PyTuple_GetItem(seqs, seq_id);
         PyObject* item_0 = PyTuple_GetItem(seq_encoded, 0);
@@ -172,13 +186,21 @@ PyObject* write_many(PyObject* seqs, PyObject* seqs_info, char* dst, SegmentWrit
     }
     Py_DECREF(seqs);
     Py_DECREF(seqs_info);
-    return Py_True;
+    Py_RETURN_TRUE; // #define Py_RETURN_TRUE return Py_INCREF(Py_True), Py_True
 } 
 
 PyObject* write_one(PyObject* seqs, PyObject* seqs_info, char* dst, SegmentWriter* segment_writer){
-    FILE* fp;
-    fp = fopen(dst, "w+");
+    Py_INCREF(seqs);
+    Py_INCREF(seqs_info);
+    FILE* fp = fopen(dst, "w+");
     
+    if(!fp){
+        Py_DECREF(seqs);
+        Py_DECREF(seqs_info);
+        PyErr_SetString(PyExc_ValueError, "An error ocurred when trying to open the file");
+        return NULL;
+    }
+
     for (int seq_id = 0; seq_id < PyTuple_Size(seqs); ++seq_id){
         PyObject* item = PyTuple_GetItem(seqs, seq_id);
         Py_INCREF(item);
@@ -195,7 +217,9 @@ PyObject* write_one(PyObject* seqs, PyObject* seqs_info, char* dst, SegmentWrite
         fclose(fp);
         fp = NULL;
     }
-    return Py_True;
+    Py_DECREF(seqs);
+    Py_DECREF(seqs_info);
+    Py_RETURN_TRUE; // #define Py_RETURN_TRUE return Py_INCREF(Py_True), Py_True
 }
 
 
