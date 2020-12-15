@@ -20,7 +20,7 @@ PyObject* encode(char* raw_seq, char* mp_signature){
 }
 
 PyObject* store(PyObject* seqs, PyObject* seqs_info, char* mapping_signature, char* dst){
-	if(mp_hash_table[0] != NULL){
+    if(mp_hash_table[0] != NULL){
         MpStruct* mps = mp_hash_table_lookup(mapping_signature);
         if(mps != NULL){
             if(mps->one_d != NULL){
