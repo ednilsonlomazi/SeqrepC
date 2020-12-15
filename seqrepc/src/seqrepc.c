@@ -47,7 +47,7 @@ static PyObject* method_encode(PyObject *self, PyObject *args) {
     if(!PyArg_ParseTuple(args, "ss", &mapping_signature, &raw_seq)) return NULL;
     return encode(raw_seq, mapping_signature);
 
-}
+} 
             
 static PyMethodDef SeqrepC_Methods[] = {
     {"encode", method_encode, METH_VARARGS, "Method to convert genomic sequence to numerical sequence"},

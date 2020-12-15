@@ -5,25 +5,27 @@
 #include "./hash_tables.c" 
  
 PyObject* encode(char* raw_seq, char* mp_signature){
-	if(mp_hash_table[0] != NULL){
-		MpStruct* mps = mp_hash_table_lookup(mp_signature);
-		if(mps != NULL){
-            if(mps->one_d != NULL)
+    if(mp_hash_table[0] != NULL){
+        MpStruct* mps = mp_hash_table_lookup(mp_signature);
+        if(mps != NULL){
+            if(mps->one_d != NULL){
                 return (*(mps->one_d->mp))(raw_seq);
+            }
             return (*(mps->many_d->mp))(raw_seq); // mps->many_d->mp(raw_seq) // works too !!             
         }
         return NULL; // could be Py_None as well... however, with NULL the error message is much more clean
-	}
-	mp_hash_table_init();
-	return encode(raw_seq, mp_signature);
+    }
+    mp_hash_table_init();
+    return encode(raw_seq, mp_signature);
 }
 
 PyObject* store(PyObject* seqs, PyObject* seqs_info, char* mapping_signature, char* dst){
 	if(mp_hash_table[0] != NULL){
         MpStruct* mps = mp_hash_table_lookup(mapping_signature);
         if(mps != NULL){
-            if(mps->one_d != NULL)
+            if(mps->one_d != NULL){
                 return (*(mps->one_d->rws->write))(seqs, seqs_info, dst);
+            }
             return (*(mps->many_d->rws->write))(seqs, seqs_info, dst);            
         }
         return NULL;
@@ -36,8 +38,9 @@ PyObject* collect_encodings(char* mapping_signature, char* source){
     if(mp_hash_table[0] != NULL){
         MpStruct* mps = mp_hash_table_lookup(mapping_signature);
         if(mps != NULL){
-            if(mps->one_d != NULL)
+            if(mps->one_d != NULL){
                 return (*(mps->one_d->rws->read))(source);
+            }
             return (*(mps->many_d->rws->read))(source);            
         }
         return NULL;
