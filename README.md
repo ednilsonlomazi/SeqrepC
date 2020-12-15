@@ -2,7 +2,7 @@
 SeqrepC is a Python module writed in C language for fundamental operations related to numerical representations of genomic sequences.
 
 ## Instalation
-SeqrepC is avalable on PyPI and can be installed as follows:
+SeqrepC is not yet available in PyPI, but when it is, it can be installed as follows:
 ```
 pip install seqrepc
 ```
