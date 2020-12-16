@@ -1,15 +1,15 @@
 #define PY_SSIZE_T_CLEAN 
 #include <Python.h>
 #include "./core/core.c"        
-                     
+                      
 static PyObject* method_collect_fasta(PyObject *self, PyObject *args) {
     
     char* source = NULL; 
     
     if(!PyArg_ParseTuple(args, "s", &source)) return NULL; 
     return collect_fasta(source);
-                     
-}                     
+                      
+}                      
                        
 static PyObject* method_collect_encodings(PyObject *self, PyObject *args) {
      

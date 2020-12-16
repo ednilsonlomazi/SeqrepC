@@ -1,7 +1,7 @@
 #ifndef DATA_H
 #define DATA_H 
 
-typedef void SegmentWriter(FILE*, PyObject*);
+typedef void SegmentWriter(FILE*, PyObject*, size_t);
 typedef PyObject* SegmentReader(char*, unsigned);
 typedef PyObject* EncodedSeqsReader(char*);
 

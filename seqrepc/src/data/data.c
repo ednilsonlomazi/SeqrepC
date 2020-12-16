@@ -36,31 +36,32 @@ PyObject* read_float_segment(char* line, unsigned encoded_seq_size) {
     return axis;
 }
 
-void write_float_segment(FILE* file, PyObject* seq){
+void write_float_segment(FILE* file, PyObject* seq, size_t seq_size){
     Py_INCREF(seq);
 	fprintf(file, "%f", PyFloat_AsDouble(PyTuple_GetItem(seq, 0)));
-    for (int j = 1; j < PyTuple_Size(seq); ++j){
+    for (int j = 1; j < seq_size; ++j){
         fprintf(file, ",%f", PyFloat_AsDouble(PyTuple_GetItem(seq, j)));
     }
     fprintf(file, "\n");
     Py_DECREF(seq);
 }
   
-void write_int_segment(FILE* file, PyObject* seq){
+void write_int_segment(FILE* file, PyObject* seq, size_t seq_size){
     Py_INCREF(seq);
     fprintf(file, "%ld", PyLong_AsLong(PyTuple_GetItem(seq, 0)));
-	for (int j = 1; j < PyTuple_Size(seq); ++j){
+	for (int j = 1; j < seq_size; ++j){
         fprintf(file, ",%ld", PyLong_AsLong(PyTuple_GetItem(seq, j)));
     }
     fprintf(file, "\n");
     Py_DECREF(seq);
 }
 
-void write_complex_segment(FILE* file, PyObject* seq){
+void write_complex_segment(FILE* file, PyObject* seq, size_t seq_size){
     Py_INCREF(seq);
     Py_complex complex = PyComplex_AsCComplex(PyTuple_GetItem(seq, 0));
     fprintf(file, "%f,%f", complex.real, complex.imag);
-	for (int j = 1; j < PyTuple_Size(seq); ++j){
+	seq_size = seq_size/2;
+    for (int j = 1; j < seq_size; ++j){
 		complex = PyComplex_AsCComplex(PyTuple_GetItem(seq, j));
         fprintf(file, ",%f,%f", complex.real, complex.imag);
     }
@@ -160,17 +161,20 @@ PyObject* write_many(PyObject* seqs, PyObject* seqs_info, char* dst, SegmentWrit
     Py_INCREF(seqs);
     Py_INCREF(seqs_info);
     
-    for (int seq_id = 0; seq_id < PyTuple_Size(seqs); ++seq_id){
+    size_t num_seqs = PyTuple_Size(seqs);
+    for (int seq_id = 0; seq_id < num_seqs; ++seq_id){
         PyObject* seq_encoded = PyTuple_GetItem(seqs, seq_id);
-        PyObject* item_0 = PyTuple_GetItem(seq_encoded, 0);
-        Py_INCREF(item_0);
-        size_t seq_size = PyTuple_Size(item_0);
+        PyObject* axis_0 = PyTuple_GetItem(seq_encoded, 0);
+        
+        Py_INCREF(axis_0);
+        size_t seq_size = PyTuple_Size(axis_0);
         fprintf(fp, "%s |%d\n", PyBytes_AsString(PyTuple_GetItem(seqs_info, seq_id)), seq_size);
         
-        (*segment_writer)(fp, item_0);
-        Py_DECREF(item_0);
-        for (int i = 1; i < PyTuple_Size(seq_encoded); ++i){
-            (*segment_writer)(fp, PyTuple_GetItem(seq_encoded, i));
+        (*segment_writer)(fp, axis_0, seq_size);
+        Py_DECREF(axis_0);
+        size_t dim = PyTuple_Size(seq_encoded);
+        for (int i = 1; i < dim; ++i){
+            (*segment_writer)(fp, PyTuple_GetItem(seq_encoded, i), seq_size);
         }
         fprintf(fp, "\n");
     }
@@ -195,16 +199,16 @@ PyObject* write_one(PyObject* seqs, PyObject* seqs_info, char* dst, SegmentWrite
     Py_INCREF(seqs_info);
 
     for (int seq_id = 0; seq_id < PyTuple_Size(seqs); ++seq_id){
-        PyObject* item = PyTuple_GetItem(seqs, seq_id);
-        Py_INCREF(item);
-        size_t seq_size = PyTuple_Size(item);
+        PyObject* seq_encoded = PyTuple_GetItem(seqs, seq_id);
+        Py_INCREF(seq_encoded);
+        size_t seq_size = PyTuple_Size(seq_encoded);
         if(segment_writer == &write_complex_segment){
             seq_size *= 2;
         } 
         fprintf(fp, "%s |%d\n", PyBytes_AsString(PyTuple_GetItem(seqs_info, seq_id)), seq_size);
-        (*segment_writer)(fp, item);
+        (*segment_writer)(fp, seq_encoded, seq_size);
         fprintf(fp, "\n");
-        Py_DECREF(item);    
+        Py_DECREF(seq_encoded);    
     } 
     if(fp != NULL){
         fclose(fp);
