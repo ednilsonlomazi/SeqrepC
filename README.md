@@ -31,7 +31,7 @@ seqs_data, seqs_info = sc.collect_encodings("dna_walk", dst_dir)
 
 I know, the storage and collect encodings from disk it is a little bit tricky. If you really think that, you can try installing Seqreppy. 
 The module Seqreppy talks to SeqrepC for you, so you don't have to.
-Seqreppy uses SeqrepC and promote to you tuns of others functionalities related to numerical representation of genomic sequences. Take a look at Seqreppy repository [here](https://github.com/ednilsonlomazi/seqreppy) 
+Seqreppy uses SeqrepC and promote to you tuns of others functionalities related to numerical representation of genomic sequences. Take a look at [Seqreppy repository here](https://github.com/ednilsonlomazi/seqreppy) 
 
 Currently, SeqrepC has 16 numerical representation methods identified by the signatures below:
 
