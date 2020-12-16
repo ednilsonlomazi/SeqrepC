@@ -50,12 +50,15 @@ PyObject* collect_encodings(char* mapping_signature, char* source){
 }
   
 PyObject* collect_fasta(char* source){
+
+    char* file_str = get_file_str(source);
+    if(!file_str){
+        return NULL;
+    }
+
     PyObject* seqs_data = PyList_New(0);
     PyObject* seqs_info = PyList_New(0);
     PyObject* seqs_lines = NULL;
- 
-    char* file_str = get_file_str(source);
-    if(!file_str){return NULL;}
 
     const char* s = "\n";
     char* token = strtok(file_str, s);
@@ -68,16 +71,23 @@ PyObject* collect_fasta(char* source){
             seqs_lines = PyList_New(0);
         }else{
             if(is_genomic_sequence(token) == false){
+                Py_DECREF(seqs_data);
+                Py_DECREF(seqs_info);
+                if(!seqs_lines){
+                    Py_DECREF(seqs_lines);
+                }
+                free(file_str);
                 PyErr_SetString(PyExc_ValueError, "File is not on fasta format");
                 return NULL;
             }
             PyList_Append(seqs_lines, PyUnicode_FromString(token));
         }
 
-        if((token = strtok(NULL, s)) == NULL)
+        if((token = strtok(NULL, s)) == NULL){
             PyList_Append(seqs_data, seqs_lines);
+        }
     }
-    // not here
+    
     if(file_str != NULL){
         free(file_str);
         file_str = NULL;

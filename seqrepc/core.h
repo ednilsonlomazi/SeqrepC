@@ -1,5 +1,5 @@
-#ifndef CORE
-#define CORE
+#ifndef CORE_H
+#define CORE_H
 
 #include <Python.h>
 
@@ -30,7 +30,6 @@ typedef struct MpStructManyD{
 	RWStructManyD* rws;
 } MpStructManyD;
 
-/* ## The Fundamental Struct of the whole SeqrepC ##  */
 typedef struct MpStruct{
 	MpStructOneD* one_d;
 	MpStructManyD* many_d;
@@ -44,4 +43,4 @@ PyObject* collect_fasta(char*);
 #include "./hash_tables.h"
 
 
-#endif // CORE
+#endif // CORE_H

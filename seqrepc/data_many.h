@@ -1,5 +1,5 @@
-#ifndef DATA_MANY
-#define DATA_MANY 
+#ifndef DATA_MANY_H
+#define DATA_MANY_H 
 
 
 typedef PyObject* write_many_d(PyObject*, PyObject*, char*);
@@ -18,4 +18,4 @@ EncodedSeqsReader read_liao;
 EncodedSeqsReader read_icgr;
 EncodedSeqsReader read_tetrahedron;
 
-#endif // DATA_MANY
+#endif // DATA_MANY_H

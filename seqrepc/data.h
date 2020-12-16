@@ -1,5 +1,5 @@
-#ifndef DATA
-#define DATA 
+#ifndef DATA_H
+#define DATA_H 
 
 typedef void SegmentWriter(FILE*, PyObject*);
 typedef PyObject* SegmentReader(char*, unsigned);
@@ -19,4 +19,4 @@ SegmentReader read_int_segment;
 #include "./data_one.h"
 #include "./data_many.h"
 
-#endif // DATA
+#endif // DATA_H

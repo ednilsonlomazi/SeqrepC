@@ -1,5 +1,5 @@
-#ifndef MAPPING_MANY
-#define MAPPING_MANY
+#ifndef MAPPING_MANY_H
+#define MAPPING_MANY_H
 
 mapping voss;
 mapping cgr;
@@ -8,4 +8,4 @@ mapping icgr;
 mapping liao;
 
 
-#endif // MAPPING_MANY
+#endif // MAPPING_MANY_H

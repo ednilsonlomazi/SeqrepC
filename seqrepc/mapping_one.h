@@ -1,5 +1,5 @@
-#ifndef MAPPING_ONE
-#define MAPPING_ONE
+#ifndef MAPPING_ONE_H
+#define MAPPING_ONE_H
 
 mapping atomic;
 mapping binary_2b;
@@ -12,4 +12,4 @@ mapping integer;
 mapping real;
 mapping molecular_mass;
 
-#endif // MAPPING_ONE
+#endif // MAPPING_ONE_H

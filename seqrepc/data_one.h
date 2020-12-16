@@ -1,5 +1,5 @@
-#ifndef DATA_ONE
-#define DATA_ONE
+#ifndef DATA_ONE_H
+#define DATA_ONE_H
 
 typedef PyObject* write_one_d(PyObject*, PyObject*, char*);
 
@@ -27,4 +27,4 @@ EncodedSeqsReader read_paired_numeric;
 EncodedSeqsReader read_molecular_mass;
 
 
-#endif // DATA_ONE
+#endif // DATA_ONE_H

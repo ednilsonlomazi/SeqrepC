@@ -69,25 +69,22 @@ void write_complex_segment(FILE* file, PyObject* seq){
 }
 
 PyObject* read_many(SegmentReader* segment_reader, char* source){
-    PyObject* seqs_encoded = PyList_New(0);
-    PyObject* seq_encoded = PyList_New(0);
-    PyObject* seqs_info = PyList_New(0);
-    PyObject* pack = PyTuple_New(2);
+    
+    FILE* fp = fopen(source, "r");
+    if (!fp){
+        PyErr_SetString(PyExc_ValueError, "An error ocurred when trying to open the file");
+        return NULL;
+    }
 
     char* line_buf = NULL;
     size_t line_buf_size = 0;
     unsigned encoded_seq_size = 0;
     int line_size;
-    
-    FILE* fp = fopen(source, "r");
-    if (!fp){
-        Py_DECREF(seqs_encoded);
-        Py_DECREF(seqs_info);
-        Py_DECREF(seq_encoded);
-        Py_DECREF(pack);
-        PyErr_SetString(PyExc_ValueError, "An error ocurred when trying to open the file");
-        return NULL;
-    }
+
+    PyObject* seqs_encoded = PyList_New(0);
+    PyObject* seq_encoded = PyList_New(0);
+    PyObject* seqs_info = PyList_New(0);
+    PyObject* pack = PyTuple_New(2);
 
     line_size = getline(&line_buf, &line_buf_size, fp);
     while (line_size > 0){
@@ -115,23 +112,21 @@ PyObject* read_many(SegmentReader* segment_reader, char* source){
 }
 
 PyObject* read_one(SegmentReader* segment_reader, char* source){
-    PyObject* seqs_encoded = PyList_New(0);
-    PyObject* seqs_info = PyList_New(0);
-    PyObject* tuple = PyTuple_New(2);
+    
+    FILE* fp = fopen(source, "r");
+    if (!fp){
+        PyErr_SetString(PyExc_ValueError, "An error ocurred when trying to open the file");
+        return NULL;
+    }
 
     char* line_buf = NULL;
     size_t line_buf_size = 0;
     unsigned encoded_seq_size = 0;
     int line_size;
-    
-    FILE* fp = fopen(source, "r");
-    if (!fp){
-        Py_DECREF(seqs_encoded);
-        Py_DECREF(seqs_info);
-        Py_DECREF(tuple);
-        PyErr_SetString(PyExc_ValueError, "An error ocurred when trying to open the file");
-        return NULL;
-    }
+
+    PyObject* seqs_encoded = PyList_New(0);
+    PyObject* seqs_info = PyList_New(0);
+    PyObject* tuple = PyTuple_New(2);
 
     line_size = getline(&line_buf, &line_buf_size, fp);
     while (line_size > 0){
@@ -155,17 +150,16 @@ PyObject* read_one(SegmentReader* segment_reader, char* source){
 }
 
 PyObject* write_many(PyObject* seqs, PyObject* seqs_info, char* dst, SegmentWriter* segment_writer){
-    Py_INCREF(seqs);
-    Py_INCREF(seqs_info);
+
     FILE* fp = fopen(dst, "w+");
-    
     if(!fp){
-        Py_DECREF(seqs);
-        Py_DECREF(seqs_info);
         PyErr_SetString(PyExc_ValueError, "An error ocurred when trying to open the file");
         return NULL;
     }
 
+    Py_INCREF(seqs);
+    Py_INCREF(seqs_info);
+    
     for (int seq_id = 0; seq_id < PyTuple_Size(seqs); ++seq_id){
         PyObject* seq_encoded = PyTuple_GetItem(seqs, seq_id);
         PyObject* item_0 = PyTuple_GetItem(seq_encoded, 0);
@@ -190,16 +184,15 @@ PyObject* write_many(PyObject* seqs, PyObject* seqs_info, char* dst, SegmentWrit
 } 
 
 PyObject* write_one(PyObject* seqs, PyObject* seqs_info, char* dst, SegmentWriter* segment_writer){
-    Py_INCREF(seqs);
-    Py_INCREF(seqs_info);
+
     FILE* fp = fopen(dst, "w+");
-    
     if(!fp){
-        Py_DECREF(seqs);
-        Py_DECREF(seqs_info);
         PyErr_SetString(PyExc_ValueError, "An error ocurred when trying to open the file");
         return NULL;
     }
+
+    Py_INCREF(seqs);
+    Py_INCREF(seqs_info);
 
     for (int seq_id = 0; seq_id < PyTuple_Size(seqs); ++seq_id){
         PyObject* item = PyTuple_GetItem(seqs, seq_id);

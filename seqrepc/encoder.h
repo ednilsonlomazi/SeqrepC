@@ -1,5 +1,5 @@
-#ifndef MAPPING_H
-#define MAPPING_H
+#ifndef ENCODER_H
+#define ENCODER_H
 
 #include <math.h>
 
@@ -11,4 +11,4 @@ typedef PyObject* mapping(char*);
 #include "./mapping_many.h"
 
 
-#endif // MAPPING_H
+#endif // ENCODER_H
