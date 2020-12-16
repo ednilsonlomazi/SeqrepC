@@ -19,7 +19,7 @@ static PyObject* method_collect_encodings(PyObject *self, PyObject *args) {
     if(!PyArg_ParseTuple(args, "ss", &mapping_signature, &source)) return NULL;
     return collect_encodings(mapping_signature, source);
                
-}  
+}   
                                          
 static PyObject* method_store(PyObject *self, PyObject *args) {
     
@@ -61,7 +61,7 @@ static PyMethodDef SeqrepC_Methods[] = {
 static struct PyModuleDef seqrepc = {
     PyModuleDef_HEAD_INIT,
     "seqrepc",
-    "A Python/C module for fundamental operations related to numerical representations of genomic sequences",
+    "SeqrepC is a module for fundamental operations related to numerical representations of genomic sequences.",
     -1,
     SeqrepC_Methods
 };

@@ -3,7 +3,6 @@
 
 typedef PyObject* write_one_d(PyObject*, PyObject*, char*);
 
-
 write_one_d write_atomic;
 write_one_d write_binary2b;
 write_one_d write_binary4b;

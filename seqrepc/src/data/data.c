@@ -10,7 +10,7 @@ int get_seq_size(char* line){
     return atoi(last_token);
 } 
 
-PyObject* read_int_segment(char* line, unsigned encoded_seq_size) {
+PyObject* read_int_segment(char* line, unsigned encoded_seq_size){
     PyObject* axis = PyTuple_New(encoded_seq_size);
     const char* separator = ",";
     char* token = strtok(line, separator);
@@ -23,7 +23,7 @@ PyObject* read_int_segment(char* line, unsigned encoded_seq_size) {
     return axis;
 }
  
-PyObject* read_float_segment(char* line, unsigned encoded_seq_size) {
+PyObject* read_float_segment(char* line, unsigned encoded_seq_size){
     PyObject* axis = PyTuple_New(encoded_seq_size);
     const char* separator = ",";
     char* token = strtok(line, separator);

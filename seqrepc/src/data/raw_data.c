@@ -28,8 +28,9 @@ char* get_file_str(char* source){
 } 
 
 bool is_genomic_sequence(char* seq){
+	unsigned seq_size = strlen(seq);
 	bool is_gen_seq = true;
-	for (int i = 0; i < strlen(seq); ++i){
+	for (int i = 0; i < seq_size; ++i){
 		char base = seq[i];
 		if(base != 'A' && base != 'T' && base != 'U' && base != 'C' && base != 'G'){
 			is_gen_seq = false;
