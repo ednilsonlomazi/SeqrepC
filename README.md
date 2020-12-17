@@ -1,15 +1,20 @@
 ## Description
-SeqrepC is a Python module writed in C language for fundamental operations related to numerical representations of genomic sequences.
+SeqrepC is a built-in Python module writed in C language for fundamental operations related to numerical representations of genomic sequences.
 
 ## Instalation
-SeqrepC is not yet available in PyPI, but when it is, it can be installed as follows:
-```
-pip install seqrepc
-```
 
 ## Usage
-With SeqrepC installed, you can: load genomic sequences from disk, apply some numerical representation into it and store the results on disk.
-After that, it is possible load the results from disk. 
+
+Ther is 2 ways for using SeqrepC:
+   * Indirectly, installing Seqreppy (Easiest way)
+   * Directly, managing yourself SeqrepC functionalities
+
+
+The first way is the easiast because the Seqreppy library talks to SeqrepC for you, so you don't have to. Seqreppy uses SeqrepC and promote to you tuns of others functionalities related to numerical representation of genomic sequences, like graphical images and genomic signal processing analysis.
+Take a look at [Seqreppy repository here](https://github.com/ednilsonlomazi/seqreppy/tree/dev) 
+
+However, if you are an experient programmer, you can use SeqrepC by yourself without any help.
+ 
 I wrote some code examplifying the SeqrepC functionalities: 
 
 ```
@@ -18,20 +23,38 @@ import seqrepc as sc
 # Load (collect) fasta sequences from disk
 seqs_data, seqs_info = sc.collect_fasta("/directory/for/file.fasta")
 
-# So, lets supose that your fasta file has 3 sequences and you want encode the # second sequence:
-second_seq = ''.join(seqs_data[1]) # seqs_data comes from disk line by line.
+##--! IMPORTANT NOTE 1 !--##
+##-- seqs_data is an iterable conteining only the genomic sequences of the ##-- fasta file. Each genomic sequence on seqs_data comes from disk line by ##-- line, requiring to you to "join" these lines
+##-- -- -- -- -- -- -- --## 
+
+##-- Lets supose that your fasta file has 3 sequences and you want encode the ##-- second sequence:
+second_seq = ''.join(seqs_data[1]) 
 seq_encoded = sc.encode("dna_walk", second_seq)
 
-# If you want, you can store and collect this seq_encoded too:
+##--! IMPORTANT NOTE 2 !--##
+##-- seq_encoded is a tuple. If the representation method has 2 or more 
+##-- dimensions, each position (axis) inside the seq_encoded is an "dimension" ##-- of the method selected.
+##-- -- -- -- -- -- -- -- ##
+
+##-- You can store and collect this seq_encoded.
+##-- lets define the destination of storage
 dst_dir = "/directory/for/store/dna_walk.txt"
+
+##-- storing the seq_encoded
 sc.store((seq_encoded,), (bytes(seqs_info[1], "utf-8"),), "dna_walk", dst_dir))
+
+##--! IMPORTANT NOTE 3 !--#
+##-- realize that i'm putting seq_encode inside a tuple, the "seqs pool"
+##-- the same logic for each information of each sequence, the "info pool"
+##-- the file of storage will be like a fasta file, but with sequences encoded
+##-- seqs_info must be sent in bytes, that way i'm using bytes() function
+##-- -- -- -- -- -- -- -- ##
+
+
+##-- 
 seqs_data, seqs_info = sc.collect_encodings("dna_walk", dst_dir)
    
 ```
-
-I know, the storage and collect encodings from disk it is a little bit tricky. If you really think that, you can try installing Seqreppy (dev branch). 
-The Seqreppy library talks to SeqrepC for you, so you don't have to.
-Seqreppy uses SeqrepC and promote to you tuns of others functionalities related to numerical representation of genomic sequences. Take a look at [Seqreppy repository here](https://github.com/ednilsonlomazi/seqreppy) 
 
 Currently, SeqrepC has 16 numerical representation methods identified by the signatures below:
 
