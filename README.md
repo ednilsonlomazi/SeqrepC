@@ -29,13 +29,15 @@ seqs_data, seqs_info = sc.collect_fasta("/directory/for/file.fasta")
 ##-- line, requiring to you to "join" these lines
 ##-- -- -- -- -- -- -- --## 
 
-##-- Lets supose that your fasta file has 3 sequences and you want encode the ##-- second sequence:
+##-- Lets supose that your fasta file has 3 sequences and you want encode the 
+##-- second sequence:
 second_seq = ''.join(seqs_data[1]) 
 seq_encoded = sc.encode("dna_walk", second_seq)
 
 ##--! IMPORTANT NOTE 2 !--##
 ##-- seq_encoded is a tuple. If the representation method has 2 or more 
-##-- dimensions, each position (axis) inside the seq_encoded is an "dimension" ##-- of the method selected.
+##-- dimensions, each position (axis) inside the seq_encoded is an "dimension" 
+##-- of the method selected.
 ##-- -- -- -- -- -- -- -- ##
 
 ##-- You can store and collect this seq_encoded.
