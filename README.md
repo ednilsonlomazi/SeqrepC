@@ -24,7 +24,9 @@ import seqrepc as sc
 seqs_data, seqs_info = sc.collect_fasta("/directory/for/file.fasta")
 
 ##--! IMPORTANT NOTE 1 !--##
-##-- seqs_data is an iterable conteining only the genomic sequences of the ##-- fasta file. Each genomic sequence on seqs_data comes from disk line by ##-- line, requiring to you to "join" these lines
+##-- seqs_data is an iterable conteining only the genomic sequences of the
+##-- fasta file. Each genomic sequence on seqs_data comes from disk line by 
+##-- line, requiring to you to "join" these lines
 ##-- -- -- -- -- -- -- --## 
 
 ##-- Lets supose that your fasta file has 3 sequences and you want encode the ##-- second sequence:
