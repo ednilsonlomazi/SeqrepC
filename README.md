@@ -10,12 +10,12 @@ Ther is 2 ways for using SeqrepC:
    * Directly, managing yourself SeqrepC functionalities
 
 
-The first way is the easiast because the Seqreppy library talks to SeqrepC for you, so you don't have to. Seqreppy uses SeqrepC and promote to you tuns of others functionalities related to numerical representation of genomic sequences, like graphical images and genomic signal processing analysis.
+The first way is the easiest because the Seqreppy library talks to SeqrepC for you, so you don't have to. Seqreppy uses SeqrepC and promote to you tuns of others functionalities related to numerical representation of genomic sequences, like graphical images and genomic signal processing analysis.
 Take a look at [Seqreppy repository here](https://github.com/ednilsonlomazi/seqreppy/tree/dev) 
 
 However, if you are an experient programmer, you can use SeqrepC by yourself without any help.
  
-I wrote some code examplifying the SeqrepC functionalities: 
+I wrote some code exemplifying the SeqrepC functionalities: 
 
 ```
 import seqrepc as sc
@@ -24,12 +24,12 @@ import seqrepc as sc
 seqs_data, seqs_info = sc.collect_fasta("/directory/for/file.fasta")
 
 ##--! IMPORTANT NOTE 1 !--##
-##-- seqs_data is an iterable conteining only the genomic sequences of the
+##-- seqs_data is an iterable containing only the genomic sequences of the
 ##-- fasta file. Each genomic sequence on seqs_data comes from disk line by 
 ##-- line, requiring to you to "join" these lines
 ##-- -- -- -- -- -- -- --## 
 
-##-- Lets supose that your fasta file has 3 sequences and you want encode the 
+##-- Let's suppose 3 sequences on your fasta file and you want encode the 
 ##-- second sequence:
 second_seq = ''.join(seqs_data[1]) 
 seq_encoded = sc.encode("dna_walk", second_seq)
@@ -41,7 +41,7 @@ seq_encoded = sc.encode("dna_walk", second_seq)
 ##-- -- -- -- -- -- -- -- ##
 
 ##-- You can store and collect this seq_encoded.
-##-- lets define the destination of storage
+##-- let's define the destination of storage
 dst_dir = "/directory/for/store/dna_walk.txt"
 
 ##-- storing the seq_encoded
@@ -49,13 +49,13 @@ sc.store((seq_encoded,), (bytes(seqs_info[1], "utf-8"),), "dna_walk", dst_dir))
 
 ##--! IMPORTANT NOTE 3 !--#
 ##-- realize that i'm putting seq_encode inside a tuple, the "seqs pool"
-##-- the same logic for each information of each sequence, the "info pool"
+##-- the same logic for the informations of each sequence, the "info pool"
 ##-- the file of storage will be like a fasta file, but with sequences encoded
 ##-- seqs_info must be sent in bytes, that why i'm using bytes() function
 ##-- -- -- -- -- -- -- -- ##
 
-##-- collect_encodings returs to you the same of encode methos
-##-- preveoslly, we store dna_walk in dst_dir. Let's get it
+##-- collect_encodings returs to you the same of encode method
+##-- previously, we store dna_walk in dst_dir. Let's get it
 seqs_data, seqs_info = sc.collect_encodings("dna_walk", dst_dir)
    
 ```
