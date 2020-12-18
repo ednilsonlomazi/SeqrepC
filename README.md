@@ -51,11 +51,11 @@ sc.store((seq_encoded,), (bytes(seqs_info[1], "utf-8"),), "dna_walk", dst_dir))
 ##-- realize that i'm putting seq_encode inside a tuple, the "seqs pool"
 ##-- the same logic for each information of each sequence, the "info pool"
 ##-- the file of storage will be like a fasta file, but with sequences encoded
-##-- seqs_info must be sent in bytes, that way i'm using bytes() function
+##-- seqs_info must be sent in bytes, that why i'm using bytes() function
 ##-- -- -- -- -- -- -- -- ##
 
-
-##-- 
+##-- collect_encodings returs to you the same of encode methos
+##-- preveoslly, we store dna_walk in dst_dir. Let's get it
 seqs_data, seqs_info = sc.collect_encodings("dna_walk", dst_dir)
    
 ```
