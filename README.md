@@ -3,6 +3,14 @@ SeqrepC is a built-in Python module writed in C language for fundamental operati
 
 ## Instalation
 
+1) Clone this repository
+2) Go inside the SeqrepC/seqrepc directory
+3) Run the command bellow:
+
+```
+sudo python3 setup.py install
+```
+
 ## Usage
 
 Ther is 2 ways for using SeqrepC:

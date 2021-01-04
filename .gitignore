@@ -1,3 +1,5 @@
 seqrepc/build
 seqrepc/setup.py
 test*
+MANIFEST.in
+dist/
